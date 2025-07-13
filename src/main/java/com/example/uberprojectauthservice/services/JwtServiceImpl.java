@@ -64,6 +64,12 @@ public class JwtServiceImpl implements JwtService{
     }
 
     @Override
+    public Object extractPayload(String token, String payload) {
+        Claims claims = extractAllClaims(token);
+        return (Object) claims.get(payload);
+    }
+
+    @Override
     public Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }

@@ -27,6 +27,8 @@ public interface JwtService extends CommandLineRunner {
 
     public Boolean validateToken(String token, String email);
 
+    public Object extractPayload(String token, String payload);
+
     public Claims extractAllClaims(String token);
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver);
