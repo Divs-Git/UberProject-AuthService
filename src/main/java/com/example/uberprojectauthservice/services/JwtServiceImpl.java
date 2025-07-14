@@ -33,8 +33,6 @@ public class JwtServiceImpl implements JwtService{
         mp.put("email", "divyansh@gmail.com");
         mp.put("phonenumber","49032748927974");
         String result = createToken(mp, "divyansh");
-
-        System.out.println("The token is: " + result);
     }
 
     @Override
