@@ -3,10 +3,13 @@ package com.example.uberprojectauthservice.services;
 import com.example.uberprojectauthservice.helpers.AuthPassengerDetails;
 import com.example.uberprojectauthservice.models.Passenger;
 import com.example.uberprojectauthservice.repositories.PassengerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * This class is responsible for loading the user in the form of UserDetails object for auth.
@@ -15,18 +18,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final PassengerRepository passengerRepository;
+    @Autowired
+    private PassengerRepository passengerRepository;
 
-    public UserDetailsServiceImpl(PassengerRepository passengerRepository) {
-        this.passengerRepository = passengerRepository;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Passenger passenger = passengerRepository
-                                .findPassengerByEmail(email)
-                                .orElseThrow(() -> new UsernameNotFoundException("Passenger with email not found"));
+        Optional<Passenger> passenger = passengerRepository.findPassengerByEmail(email);
+        if (passenger.isPresent()) {
 
-        return new AuthPassengerDetails(passenger);
+            return new AuthPassengerDetails(passenger.get());
+        }
+
+        throw new UsernameNotFoundException("User not found");
     }
 }

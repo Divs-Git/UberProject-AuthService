@@ -19,6 +19,8 @@ public interface JwtService extends CommandLineRunner {
      */
     public String createToken(Map<String,Object> payload,String email);
 
+    public String createToken(String email);
+
     public String extractEmail(String token);
 
     public Boolean isTokenExpired(String token);

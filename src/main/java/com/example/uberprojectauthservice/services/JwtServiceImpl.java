@@ -96,4 +96,9 @@ public class JwtServiceImpl implements JwtService{
                 .signWith(getSignInKey())
                 .compact();
     }
+
+    @Override
+    public String createToken(String email) {
+        return createToken(new HashMap<>(), email);
+    }
 }
